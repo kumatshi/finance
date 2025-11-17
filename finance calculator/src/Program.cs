@@ -68,7 +68,6 @@ namespace finance_calculator.src
                 Console.Write("Введите процентную ставку (% годовых): ");
                 decimal annualRate = decimal.Parse(Console.ReadLine());
 
-                // Валидация входных данных
                 if (amount <= 0 || amount > 10000000)
                     throw new ArgumentException("Сумма кредита должна быть от 1 до 10,000,000 руб");
 
@@ -78,7 +77,6 @@ namespace finance_calculator.src
                 if (annualRate <= 0 || annualRate >= 100)
                     throw new ArgumentException("Процентная ставка должна быть от 0.1 до 99.9%");
 
-                // Расчет аннуитетного платежа
                 decimal monthlyRate = annualRate / 100 / 12;
                 decimal coefficient = monthlyRate * (decimal)Math.Pow((double)(1 + monthlyRate), months) /
                                     ((decimal)Math.Pow((double)(1 + monthlyRate), months) - 1);
@@ -112,8 +110,6 @@ namespace finance_calculator.src
         {
             Console.Clear();
             Console.WriteLine("=== КОНВЕРТЕР ВАЛЮТ ===");
-
-            // Фиксированные курсы валют
             var exchangeRates = new Dictionary<string, decimal>
             {
                 {"USD_RUB", 90.0m},
@@ -136,7 +132,6 @@ namespace finance_calculator.src
                 Console.Write("Введите сумму для конвертации: ");
                 decimal amount = decimal.Parse(Console.ReadLine());
 
-                // Валидация валют
                 string[] validCurrencies = { "RUB", "USD", "EUR" };
                 if (Array.IndexOf(validCurrencies, fromCurrency) == -1 ||
                     Array.IndexOf(validCurrencies, toCurrency) == -1)
@@ -147,7 +142,6 @@ namespace finance_calculator.src
                 if (amount <= 0)
                     throw new ArgumentException("Сумма должна быть положительным числом");
 
-                // Конвертация
                 decimal result;
                 if (fromCurrency == toCurrency)
                 {
@@ -200,8 +194,6 @@ namespace finance_calculator.src
 
                 Console.Write("Тип вклада (1 - без капитализации, 2 - с капитализацией): ");
                 string depositType = Console.ReadLine();
-
-                // Валидация входных данных
                 if (amount <= 0 || amount > 10000000)
                     throw new ArgumentException("Сумма вклада должна быть от 1 до 10,000,000 руб");
 
@@ -213,12 +205,12 @@ namespace finance_calculator.src
 
                 decimal income, totalAmount;
 
-                if (depositType == "1") // Без капитализации
+                if (depositType == "1")
                 {
                     income = amount * annualRate * months / 12 / 100;
                     totalAmount = amount + income;
                 }
-                else if (depositType == "2") // С капитализацией
+                else if (depositType == "2") 
                 {
                     decimal monthlyRate = annualRate / 100 / 12;
                     totalAmount = amount * (decimal)Math.Pow((double)(1 + monthlyRate), months);
